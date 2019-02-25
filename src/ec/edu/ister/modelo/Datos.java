@@ -18,19 +18,24 @@ public class Datos {
     private String apellido;
     private String direccion; 
     private String fechaNacimiento;
+    private int telefono;
     private String email;
-   
+    private  int cargaHoraria;
 
-    public Datos(int cedula, String nombre, String apellido, String direccion, String fechaNacimiento, String email) {
+    public Datos(int cedula, String nombre, String apellido, String direccion, String fechaNacimiento, int telefono, String email, int cargaHoraria) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.direccion = direccion;
         this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
         this.email = email;
+        this.cargaHoraria = cargaHoraria;
     }
 
-   
+    public Datos(int leerCedula, String leerNombre, String leerApellido, String leerDireccion, String leerFecha, int leerTelefono, String leerEmail) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public int getCedula() {
         return cedula;
@@ -72,6 +77,14 @@ public class Datos {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public int getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -80,9 +93,12 @@ public class Datos {
         this.email = email;
     }
 
-    /**
-     * @return the foto
-     */
-   
+    public int getCargaHoraria() {
+        return cargaHoraria;
+    }
+
+    public void setCargaHoraria(int cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
+    }
 
 }

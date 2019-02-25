@@ -83,7 +83,9 @@ public class Visual extends javax.swing.JFrame {
                 p.setApellido(st.nextToken());
                 p.setDireccion(st.nextToken());
                 p.setFechaNacimiento(st.nextToken());
+                p.setTelefono(Integer.parseInt(st.nextToken()));
                 p.setEmail(st.nextToken());
+                p.setCargaHoraria(Integer.parseInt(st.nextToken()));
                 rp.agregarRegistro(p);
             }
             bu.close();
@@ -102,7 +104,7 @@ public class Visual extends javax.swing.JFrame {
             
             for(int i = 0; i < rp.cantidadRegistro(); i++){
                 p = rp.obtenerRegistro(i);
-                pw.println(String.valueOf(p.getCedula()+", "+p.getNombre()+", "+p.getApellido()+", "+p.getDireccion()+", "+p.getFechaNacimiento()+", "+p.getEmail()));
+                pw.println(String.valueOf(p.getCedula()+", "+p.getNombre()+", "+p.getApellido()+", "+p.getDireccion()+", "+p.getFechaNacimiento()+", "+p.getTelefono()+", "+p.getEmail()+", "+p.getCargaHoraria()));
             }
              pw.close();
             
@@ -119,9 +121,11 @@ public class Visual extends javax.swing.JFrame {
             else if(leerApellido() == null)mensaje("Ingresar Apellido");
             else if(leerDireccion()== null)mensaje("Ingresar Direcion");
              else if(leerFecha()== null)mensaje("Ingresar Fecha nacimiento");
+              if(leerTelefono()== -666)mensaje("Ingresar en numero entero");
                 else if(leerEmail()== null)mensaje("Ingresar Email");
+                 if(leerCarga()== -666)mensaje("Ingresar en numero entero");
             else{
-                p = new Datos(leerCedula(), leerNombre(), leerApellido(), leerDireccion(),leerFecha(),leerEmail());
+                p = new Datos(leerCedula(), leerNombre(), leerApellido(), leerDireccion(),leerFecha(),leerTelefono(),leerEmail(),leerCarga());
                 if(rp.buscaCedula(p.getCedula())!= -1)mensaje("Este codigo ya existe");
                 else rp.agregarRegistro(p);
                 
@@ -140,10 +144,12 @@ public class Visual extends javax.swing.JFrame {
             else if(leerApellido() == null)mensaje("Ingresar Apellido");
             else if(leerDireccion()== null)mensaje("Ingresar Direcion");
              else if(leerFecha()== null)mensaje("Ingresar Fecha nacimiento");
+              if(leerTelefono()== -666)mensaje("Ingresar en numero entero");
                 else if(leerEmail()== null)mensaje("Ingresar Email");
+                 if(leerCarga()== -666)mensaje("Ingresar en numero entero");
             else{
                 int cedula = rp.buscaCedula(leerCedula());
-                p = new Datos(leerCedula(), leerNombre(), leerApellido(), leerDireccion(),leerFecha(),leerEmail());
+                p = new Datos(leerCedula(), leerNombre(), leerApellido(), leerDireccion(),leerFecha(),leerTelefono(),leerEmail(),leerCarga());
                 
                 if(cedula == -1)rp.agregarRegistro(p);
                 else rp.modificarRegistro(cedula, p);
@@ -196,7 +202,9 @@ public class Visual extends javax.swing.JFrame {
         dt.addColumn("Apellido");
         dt.addColumn("Direccion");
         dt.addColumn("Fecha Nacimiento");
+        dt.addColumn("Telefono");
         dt.addColumn("Email");
+        dt.addColumn("Cargas");
         
         tabla.setDefaultRenderer(Object.class, new imgTabla());
         
@@ -208,7 +216,9 @@ public class Visual extends javax.swing.JFrame {
             fila[2] = p.getApellido();
             fila[3] = p.getDireccion();
             fila[4] = p.getFechaNacimiento();
-            fila[5] = p.getEmail();
+            fila[5] = p.getTelefono();
+            fila[6] = p.getEmail();
+            fila[7] = p.getCargaHoraria();
             dt.addRow(fila);
         }
         tabla.setModel(dt);
@@ -258,6 +268,15 @@ public class Visual extends javax.swing.JFrame {
             return null;
         }
     }
+    
+    public int leerTelefono(){
+        try{
+            int telefono = Integer.parseInt(txtTelefono.getText().trim());
+            return telefono;
+        }catch(Exception ex){
+            return -666;
+        }
+    }
    public String leerEmail(){
         try{
             String nombre = txtEmail.getText().trim().replace(" ", "_");
@@ -266,25 +285,17 @@ public class Visual extends javax.swing.JFrame {
             return null;
         }
     } 
-    public Object leerDescripcion(){
+   public int leerCarga(){
         try{
-            Object descripcion = txtDireccion.getText().trim();
-            return descripcion;
+            int cargas = Integer.parseInt(txtCarga.getText().trim());
+            return cargas;
         }catch(Exception ex){
-            return null;
+            return -666;
         }
     }
     
-    public byte[] leerFoto(File ruta){
-        try{
-            byte[] icono = new byte[(int) ruta.length()];
-            InputStream input = new FileInputStream(ruta);
-            input.read(icono);
-            return icono;
-        }catch(Exception ex){
-            return null;
-        }
-    }
+    
+    
     
     /*
     public byte[] leerFoto2(int codigo){
@@ -325,6 +336,10 @@ public class Visual extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        txtTelefono = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtCarga = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Base de Datos con Bloc de Notas .txt");
@@ -376,7 +391,7 @@ public class Visual extends javax.swing.JFrame {
         txtDireccion.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jLabel4.setText("DIRECCION");
+        jLabel4.setText("DIRECCION :");
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel3.setText("APELLIDO:");
@@ -391,7 +406,7 @@ public class Visual extends javax.swing.JFrame {
         jLabel1.setText("CEDULA:");
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jLabel2.setText("Nombre:");
+        jLabel2.setText("NOMBRE :");
 
         txtRuta.setEditable(false);
         txtRuta.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
@@ -408,60 +423,67 @@ public class Visual extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("FECHA  NACIMIENTO");
+        jLabel6.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabel6.setText("FECHA  NACIMIENTO :");
 
-        jLabel7.setText("EMAIL");
+        jLabel7.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabel7.setText("EMAIL :");
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabel5.setText("TELEFONO : ");
+
+        jLabel8.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabel8.setText("CARGA HORARIA :");
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addComponent(jButton1)
-                .addGap(102, 102, 102)
-                .addComponent(jButton2)
-                .addGap(78, 78, 78)
-                .addComponent(jButton3)
-                .addContainerGap(122, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))
-                        .addGap(47, 47, 47)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                            .addComponent(txtApellido)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLayout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jScrollPane1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addGap(9, 9, 9)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLayout.createSequentialGroup()
                                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel6))))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDireccion)
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtfechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3))
+                                .addGap(47, 47, 47)
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                                    .addComponent(txtApellido)
+                                    .addComponent(txtCedula))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLayout.createSequentialGroup()
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8))
+                                .addGap(48, 48, 48)
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtTelefono)
+                                    .addComponent(txtfechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                    .addComponent(txtCarga, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDireccion))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton5)))))
-                .addGap(24, 24, 24))
+                                .addComponent(jButton5)))
+                        .addGap(24, 24, 24))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())))
+            .addGroup(panelLayout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(jButton1)
+                .addGap(113, 113, 113)
+                .addComponent(jButton2)
+                .addGap(96, 96, 96)
+                .addComponent(jButton3)
+                .addGap(0, 116, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -482,26 +504,37 @@ public class Visual extends javax.swing.JFrame {
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtfechaNacimiento)
-                        .addComponent(jLabel6)))
-                .addGap(19, 19, 19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtfechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jButton5))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(30, 30, 30)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addGap(41, 41, 41)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtCarga, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addGap(34, 34, 34)
-                .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -513,9 +546,8 @@ public class Visual extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -551,7 +583,9 @@ public class Visual extends javax.swing.JFrame {
         String apellido = ""+tabla.getValueAt(clic_tabla, 2);
         String direccion = ""+tabla.getValueAt(clic_tabla, 3);
         String fechaNacimiento = ""+tabla.getValueAt(clic_tabla, 4);
-        String email = ""+tabla.getValueAt(clic_tabla, 5);
+        String telefono = ""+tabla.getValueAt(clic_tabla, 5);
+        String email = ""+tabla.getValueAt(clic_tabla, 6);
+        String cargas = ""+tabla.getValueAt(clic_tabla, 7);
 
         txtCedula.setText(String.valueOf(cedula));
         
@@ -559,8 +593,9 @@ public class Visual extends javax.swing.JFrame {
         txtApellido.setText(apellido);
         txtDireccion.setText(direccion);
         txtfechaNacimiento.setText(fechaNacimiento);
+        txtTelefono.setText(telefono);
         txtEmail.setText(email);
-        
+        txtCarga.setText(cargas);
         try{
             JLabel lbl = (JLabel)tabla.getValueAt(clic_tabla, 4);
             
@@ -621,17 +656,21 @@ public class Visual extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtCarga;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRuta;
+    private javax.swing.JTextField txtTelefono;
     private javax.swing.JTextField txtfechaNacimiento;
     // End of variables declaration//GEN-END:variables
 }
