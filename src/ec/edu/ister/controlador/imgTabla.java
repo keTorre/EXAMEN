@@ -12,10 +12,7 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 
-/**
- *
- * @author David
- */
+
 public class imgTabla extends DefaultTableCellRenderer {
 
     @Override

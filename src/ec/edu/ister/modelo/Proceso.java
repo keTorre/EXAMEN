@@ -8,10 +8,6 @@ package ec.edu.ister.modelo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- *
- * @author David
- */
 public class Proceso {
     
       private ArrayList<Object> a = new ArrayList<Object>();

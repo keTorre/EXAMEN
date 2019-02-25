@@ -7,10 +7,7 @@ package ec.edu.ister.modelo;
 
 import java.io.Serializable;
 
-/**
- *
- * @author David
- */
+
 public class Datos {
     
     private int cedula;
@@ -22,7 +19,7 @@ public class Datos {
     private String email;
     private  int cargaHoraria;
 
-    public Datos(int cedula, String nombre, String apellido, String direccion, String fechaNacimiento, int telefono, String email, int cargaHoraria) {
+    public Datos(int cedula, String nombre, String apellido, String direccion, String fechaNacimiento,int telefono, String email, int cargaHoraria) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -33,7 +30,7 @@ public class Datos {
         this.cargaHoraria = cargaHoraria;
     }
 
-    public Datos(int leerCedula, String leerNombre, String leerApellido, String leerDireccion, String leerFecha, int leerTelefono, String leerEmail) {
+    public Datos(int leerCedula, String leerNombre, String leerApellido, String leerDireccion, String leerFecha,int leerTelefono ,String leerEmail) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
